@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TestDBStoreContainer">
+    <EntitySet Name="JobsSet" EntityType="TestDB.Store.JobsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EmployeesSet" EntityType="TestDB.Store.EmployeesSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="JobsEmployees" Association="TestDB.Store.JobsEmployees">
+      <End Role="Jobs" EntitySet="JobsSet" />
+      <End Role="Employees" EntitySet="EmployeesSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="JobsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="JobsName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmployeesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Salary" Type="float" Nullable="false" />
+    <Property Name="JobsId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="JobsEmployees">
+    <End Role="Jobs" Type="TestDB.Store.JobsSet" Multiplicity="1" />
+    <End Role="Employees" Type="TestDB.Store.EmployeesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employees">
+        <PropertyRef Name="JobsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="TestDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="TestDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="JobsSet" EntityType="TestDB.Jobs" />
+          <EntitySet Name="EmployeesSet" EntityType="TestDB.Employees" />
+          <AssociationSet Name="JobsEmployees" Association="TestDB.JobsEmployees">
+            <End Role="Jobs" EntitySet="JobsSet" />
+            <End Role="Employees" EntitySet="EmployeesSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Jobs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="JobsName" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="TestDB.JobsEmployees" FromRole="Jobs" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" />
+          <Property Type="String" Name="LastName" Nullable="false" />
+          <Property Type="Double" Name="Salary" Nullable="false" />
+          <NavigationProperty Name="Jobs" Relationship="TestDB.JobsEmployees" FromRole="Employees" ToRole="Jobs" />
+          <Property Type="Int32" Name="JobsId" Nullable="false" />
+        </EntityType>
+        <Association Name="JobsEmployees">
+          <End Type="TestDB.Jobs" Role="Jobs" Multiplicity="1" />
+          <End Type="TestDB.Employees" Role="Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jobs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="JobsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestDBStoreContainer" CdmEntityContainer="TestDBContainer">
+    <EntitySetMapping Name="JobsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TestDB.Jobs)">
+        <MappingFragment StoreEntitySet="JobsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="JobsName" ColumnName="JobsName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(TestDB.Employees)">
+        <MappingFragment StoreEntitySet="EmployeesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="JobsId" ColumnName="JobsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
