@@ -29,10 +29,11 @@ namespace TestTask
         }
         protected void DropDownList_SelectedValue(object sender, EventArgs e)
         {
-           
+            temp = null;
             string selectedJob = DropDownList.SelectedValue;
             int jobId = container.JobsSet.Where(x => x.JobsName == selectedJob).FirstOrDefault().Id;
             UpdateGrid(jobId);
+           
         }
 
        
@@ -61,24 +62,36 @@ namespace TestTask
         #endregion
         private void UpdateGrid(int JobId)
         {
-            if (JobId == 0)
+
+            
+            if (temp != null)
             {
-                gridView.DataSource = container.EmployeesSet.Where(x => x.JobsId == 1).ToList();
-                // gridView.DataSourceID = string.Empty;
+                gridView.DataSource = temp.ToList();
                 gridView.DataBind();
             }
             else
             {
-                gridView.DataSource = container.EmployeesSet.Where(q => q.JobsId == JobId).ToList();
-                gridView.DataBind();
+                if (JobId == 0)
+                {
+                    gridView.DataSource = container.EmployeesSet.Where(x => x.JobsId == 1).ToList();
+                    // gridView.DataSourceID = string.Empty;
+                    gridView.DataBind();
+                }
+                else
+                {
+                    gridView.DataSource = container.EmployeesSet.Where(q => q.JobsId == JobId).ToList();
+                    gridView.DataBind();
+                }
+
             }
         }
        
 
-        //Не работает
+       
         protected void gvPageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            
+
+           
                 string selectedJob = DropDownList.SelectedValue;
                 int jobId = container.JobsSet.Where(x => x.JobsName == selectedJob).FirstOrDefault().Id;
                 UpdateGrid(jobId);
@@ -110,7 +123,7 @@ namespace TestTask
          
         }
 
-        
+        static IEnumerable<Employees> temp;
         protected void GvSorting(object sender, GridViewSortEventArgs e)
         {
            
@@ -124,7 +137,7 @@ namespace TestTask
                 sortDirection.Value = "Ascending";
             }
 
-            IEnumerable<Employees> temp;
+            //IEnumerable<Employees> temp;
             string selectedJob = DropDownList.SelectedValue;
             int jobId = container.JobsSet.Where(x => x.JobsName == selectedJob).FirstOrDefault().Id;
             temp = container.EmployeesSet.Where(q => q.JobsId == jobId).ToList();
