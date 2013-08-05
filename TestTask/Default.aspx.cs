@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Serialization;
@@ -11,8 +13,9 @@ namespace TestTask
 {
     public partial class Default : System.Web.UI.Page
     {
-       
-
+        // Вынести в отдельный класс для инкапсуляции и тестов. сделать через стат.класс.
+            
+        static IEnumerable<Employees> temp;
         public TestDBContainer container = new TestDBContainer();
        
 
@@ -63,6 +66,7 @@ namespace TestTask
         private void UpdateGrid(int JobId)
         {
 
+            // Вынести в отдельный класс для инкапсуляции и тестов. сделать через стат.класс.
             
             if (temp != null)
             {
@@ -74,7 +78,7 @@ namespace TestTask
                 if (JobId == 0)
                 {
                     gridView.DataSource = container.EmployeesSet.Where(x => x.JobsId == 1).ToList();
-                    // gridView.DataSourceID = string.Empty;
+                    
                     gridView.DataBind();
                 }
                 else
@@ -105,6 +109,8 @@ namespace TestTask
 
         protected void GvUpdating(object sender, GridViewUpdateEventArgs e)
         {
+            // Вынести в отдельный класс для инкапсуляции и тестов. сделать через стат.класс.
+            
             int id;
             if (int.TryParse(string.Format("{0}", e.Keys["Id"]), out id))
             {
@@ -123,10 +129,12 @@ namespace TestTask
          
         }
 
-        static IEnumerable<Employees> temp;
+       
         protected void GvSorting(object sender, GridViewSortEventArgs e)
         {
-           
+
+            // Вынести в отдельный класс для инкапсуляции и тестов. сделать через стат.класс.
+            
             //Переписать в метод Flip
             if (sortDirection.Value == "Ascending")
             {
@@ -160,7 +168,9 @@ namespace TestTask
             gridView.DataBind();
 
           
+
         }
+
         protected void Edit(object sender, GridViewEditEventArgs e)
         {
             gridView.EditIndex = e.NewEditIndex;
