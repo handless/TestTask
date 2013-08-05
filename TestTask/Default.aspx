@@ -11,45 +11,27 @@
     <div>
    
         <hr/>
-        <%--<asp:GridView runat="server" ID="gv" AutoGenerateColumns="false" Width="60%" AllowSorting="true"  OnRowUpdating="GvUpdating"
-                                            OnRowEditing="GvEditing" OnSorting="GvSorting" OnRowCancelingEdit="GvCanceling">
-            <Columns>
-                    <asp:BoundField HeaderText="Id" DataField="Id" SortExpression="Id" ReadOnly="true">
-                        <ItemStyle Width="5%"></ItemStyle>
-                        </asp:BoundField>
-                    <asp:BoundField HeaderText="Name" DataField="FirstName" SortExpression="FirstName" >
-                            <ItemStyle Width="30%"></ItemStyle>
-                        </asp:BoundField>
+     
 
-                <asp:BoundField HeaderText="Last Name" DataField="LastName" SortExpression="LastName">
-                        <ItemStyle Width="45%"></ItemStyle>
-                    </asp:BoundField>
-                <asp:BoundField HeaderText ="Salary" DataField="Salary" SortExpression="Salary">
-                    <ItemStyle Width="10%"></ItemStyle>
-                    </asp:BoundField>
-                <asp:CommandField ShowCancelButton="true" ShowEditButton="true" ShowDeleteButton="true">
-                    <ItemStyle Width="10%"></ItemStyle>
-                    </asp:CommandField>
-            </Columns>
-            <EmptyDataTemplate>
-                Записей нет
-                </EmptyDataTemplate>
-          </asp:GridView>--%>
+
+        <asp:Label ID="JobsTitlelb" runat="server" Text="Jobs Title: "></asp:Label><asp:DropDownList ID="DropDownList" AutoPostBack="true" runat="server" DataSourceID="SqlDataSource1" DataTextField="JobsName" DataValueField="JobsName" Width="200px" OnSelectedIndexChanged="DropDownList_SelectedValue">
+        </asp:DropDownList>
+
 
         <asp:GridView runat="server"  ID="gridView" AllowSorting="true"  DataKeyNames="Id" AutoGenerateColumns="false"
             Width="60%"  OnSorting="GvSorting"  OnRowEditing="Edit" OnRowUpdating="GvUpdating" CurrentSortDir="ASC" AllowPaging="True" PageSize="3" OnPageIndexChanging="gvPageIndexChanging">
                 <Columns>
-                        <asp:BoundField HeaderText="Id" DataField="Id" ReadOnly="true">
-                                <ItemStyle Width="5%" />
-                        </asp:BoundField>
 
-                        <asp:BoundField HeaderText="Last Name" DataField="LastName" ReadOnly="true" SortExpression="LastName">         
-                            <ItemStyle Width="35%" />
-                        </asp:BoundField>
-                        
-                        <asp:BoundField HeaderText="First Name" DataField="FirstName" ReadOnly="true">
-                            <ItemStyle Width="35%" />
-                        </asp:BoundField>
+                    <asp:BoundField HeaderText="Id" DataField="Id"></asp:BoundField>
+                       <asp:TemplateField HeaderText="Full Name" SortExpression="LastName">
+                           <ItemTemplate>
+                               <ItemStyle Width="70%">
+                                <asp:Label ID="LastNamelb" runat="server" Text='<%#Bind("LastName") %>'> </asp:Label>  
+                                <asp:Label ID="FirstNamelb" runat="server" Text='<%#Bind("FirstName") %>'></asp:Label> 
+                           </ItemTemplate>
+                           </asp:TemplateField>
+
+                     
 
                         <asp:BoundField HeaderText="Salary" DataField="Salary" SortExpression="Salary">
                             <ItemStyle Width="15%"/>
@@ -72,12 +54,8 @@
             </asp:GridView>
         <asp:HiddenField ID="hfEmployeesViewState" runat="server" />
         <asp:HiddenField ID="sortDirection" runat="server" />
-        <asp:ObjectDataSource ID="ods" runat="server" TypeName="TestTask.container" 
-            DataObjectTypeName="TestTask.Employees" EnablePaging="true"
-            MaximumRowsParameterName ="maximumRows" StartRowIndexParameterName="startRowIndex"
-            SortParameterName="sort" InsertMethod="Insert" SelectCountMethod="Count"
-            SelectMethod="GetEmployees" UpdateMethod="Update" DeleteMethod="Delete" >
-            </asp:ObjectDataSource>
+       
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="Data Source=HANDLESS-PC\SQLEXPRESS;Initial Catalog=TestTableDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" ProviderName="System.Data.SqlClient" SelectCommand="SELECT * FROM [JobsSet]"></asp:SqlDataSource>
     </div>
     </form>
 </body>
